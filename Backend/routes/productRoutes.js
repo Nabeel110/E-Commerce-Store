@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { database } = require("../config/helpers");
+const pool = require("../config/helpers");
 
-const db = database;
-db.connect();
-
+// @desc FETCH ALL PRODUCTS
+// @route GET /api/products
+// @access Public
 router.get("/", (req, res) => {
   let page =
     req.query.page !== undefined && req.query.page !== 0 ? req.query.page : 1; // set the current page number
@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
                               WHERE p.cat_id = c.id  \
                               order by p.id limit 12;";
 
-  db.query(productListQuery, (error, results, fields) => {
+  pool.query(productListQuery, (error, results, fields) => {
     if (!error) {
       res.status(200).json({
         count: results.length,
@@ -46,6 +46,9 @@ router.get("/", (req, res) => {
   });
 });
 
+// @desc FETCH SINGLE PRODUCT
+// @route GET /api/products/:prod_id
+// @access Public
 router.get("/:prod_id", (req, res) => {
   //   let productid = req.params.prod_id;
   let productQuery = "SELECT * from products where products.id=?";
@@ -53,7 +56,7 @@ router.get("/:prod_id", (req, res) => {
   let product = {};
   let reviews = [];
 
-  db.query(productQuery, [req.params.prod_id], (error, results, fields) => {
+  pool.query(productQuery, [req.params.prod_id], (error, results, fields) => {
     if (!error) {
       product = results[0];
     } else {
@@ -61,7 +64,7 @@ router.get("/:prod_id", (req, res) => {
     }
   });
 
-  db.query(reviewsQuery, [req.params.prod_id], (error, results, fields) => {
+  pool.query(reviewsQuery, [req.params.prod_id], (error, results, fields) => {
     if (!error) {
       reviews = results;
       res.status(200).json({
@@ -76,4 +79,5 @@ router.get("/:prod_id", (req, res) => {
   });
 });
 
+// db.end();
 module.exports = router;

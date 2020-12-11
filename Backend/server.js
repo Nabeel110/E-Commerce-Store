@@ -8,12 +8,13 @@ dotenv.config();
 // Initializing app
 const app = express();
 
-// Importing Routes
-const productsRoute = require("./routes/products");
-
 //Added bodyParser (Error Solution)
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Importing Routes
+const productsRoute = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 app.use(
   cors({
@@ -26,6 +27,7 @@ app.use(
 
 // Use Routes
 app.use("/api/products", productsRoute);
+app.use("/api/users", userRoutes);
 
 app.use(express.urlencoded({ extended: false }));
 
