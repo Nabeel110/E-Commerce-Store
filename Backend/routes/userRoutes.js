@@ -91,9 +91,9 @@ router.post("/", async (req, res) => {
 // @desc Get user profile
 // @route POST /api/users/profile
 // @access Private
-router.get("/profile", protect, async (req, res) => {
+router.get("/profile/:id", protect, async (req, res) => {
   user.find(req.id, (result) => {
-    console.log("Profile Route");
+    // console.log(req.id);
     if (result) {
       res.json({
         id: result.id,
@@ -114,19 +114,34 @@ router.get("/profile", protect, async (req, res) => {
 // @desc Update user profile
 // @route PUT /api/users/profile
 // @access Private
-router.put("/profile/:id", protect, async (req, res) => {
+router.put("/profile/update/:id", protect, async (req, res) => {
   let userId = req.params.id;
+  // console.log(userId);
 
-  console.log(req.id);
+  // console.log(req.id);
+
+  let userArray = [
+    userId,
+    req.body.username,
+    req.body.fname,
+
+    req.body.lname,
+
+    req.body.email,
+
+    req.body.password,
+  ];
+
   let userUpdatedfield = {
     id: userId,
     username: req.body.username,
     fname: req.body.fname,
     lname: req.body.lname,
     email: req.body.email,
+    password: req.body.password,
   };
 
-  user.update(userUpdatedfield, (user) => {
+  user.update(userArray, (user) => {
     if (user) {
       res.json({
         id: user.id,

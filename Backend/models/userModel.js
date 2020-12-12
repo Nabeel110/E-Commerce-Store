@@ -8,9 +8,10 @@ User.prototype = {
   find: function (user = null, callback) {
     // if user = Number return field = id. If user = string return fisld = username
     if (user) {
-      console.log("In find method");
-      let emailCheck = user.find("@");
-      var field = emailCheck ? "email" : "id";
+      let isEmail = user.indexOf("@");
+
+      var field = Number(isEmail) !== -1 ? "email" : "id";
+      // console.log(field);
     }
     if (field) {
       var sql = `SELECT * FROM users WHERE ${field} = ?`;
@@ -46,21 +47,27 @@ User.prototype = {
   },
 
   update: function (body, callback) {
-    console.log(body.id);
-    this.find(body.userId, (user) => {
+    let id = body[0].toString();
+    // console.log("My ID", id);
+    this.find("" + id, (user) => {
       if (user) {
-        let pwd = body.password;
+        let pwd = body[5];
 
+        // console.log("This is update method", body.id);
         body.password = bcrypt.hashSync(pwd, 9);
 
-        let sql = `update users SET username=?, fname=?, lname=?, email=?, password=? where id={userId}`;
+        let sql = `update users SET username=?, fname=?, lname=?, email=?, password=? where id= ${body[0]}`;
 
-        pool.query(sql, body, (err, lastId) => {
-          //   console.log(bind);
-          if (err) throw err;
-          //   console.log(lastId);
-          callback(lastId);
-        });
+        pool.query(
+          sql,
+          [body[1], body[2], body[3], body[4], body[5]],
+          (err, lastId) => {
+            //   console.log(bind);
+            if (err) throw err;
+            //   console.log(lastId);
+            callback(lastId);
+          }
+        );
         return;
       } else {
         callback(null);
