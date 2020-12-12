@@ -8,7 +8,9 @@ User.prototype = {
   find: function (user = null, callback) {
     // if user = Number return field = id. If user = string return fisld = username
     if (user) {
-      var field = Number.isInteger(user) ? "id" : "email";
+      console.log("In find method");
+      let emailCheck = user.find("@");
+      var field = emailCheck ? "email" : "id";
     }
     if (field) {
       var sql = `SELECT * FROM users WHERE ${field} = ?`;

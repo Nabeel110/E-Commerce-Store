@@ -4,6 +4,7 @@ const router = express.Router();
 const generateToken = require("../utils/generateToken");
 const protect = require("../middleware/authMiddleware");
 const { v4: uuid } = require("uuid");
+const pool = require("../config/helpers");
 const user = new User();
 
 // match password
@@ -50,39 +51,41 @@ router.post("/", async (req, res) => {
     fname: req.body.fname,
     lname: req.body.lname,
   };
-  // console.log("UserInput", userInput);
 
-  if (userInput.email !== "") {
-    user.find(userInput.email, (foundUser) => {
-      if (foundUser) {
-        res.status(400).json({
-          message: "User Already exist with this email.",
-        });
-      }
-    });
-  } else if (userInput) {
-    user.create(userInput, (user) => {
-      if (userInput) {
-        console.log(userInput.id);
-        res.status(201).json({
-          id: userInput.id,
-          username: userInput.username,
-          fname: userInput.fname,
-          lname: userInput.lname,
-          email: userInput.email,
-          token: generateToken(userInput.id),
-        });
+  pool.query(
+    `SELECT * FROM users WHERE email = ?`,
+    [req.body.email],
+    (err, result) => {
+      if (err) {
+        console.log(err);
       } else {
-        res.status(400).json({
-          message: "Invalid User Data",
-        });
+        if (result[0]) {
+          console.log("here");
+          res.status(400).json({
+            message: "User with this email already exist.",
+          });
+        } else {
+          user.create(userInput, (user) => {
+            if (user) {
+              console.log(userInput.id);
+              res.status(201).json({
+                id: userInput.id,
+                username: userInput.username,
+                fname: userInput.fname,
+                lname: userInput.lname,
+                email: userInput.email,
+                token: generateToken(userInput.id),
+              });
+            } else {
+              res.status(400).json({
+                message: "Invalid User Data",
+              });
+            }
+          });
+        }
       }
-    });
-  } else {
-    res.status(400).json({
-      message: "User validation Failed. Make sure you have filled each fields",
-    });
-  }
+    }
+  );
 });
 
 // @desc Get user profile
@@ -90,6 +93,7 @@ router.post("/", async (req, res) => {
 // @access Private
 router.get("/profile", protect, async (req, res) => {
   user.find(req.id, (result) => {
+    console.log("Profile Route");
     if (result) {
       res.json({
         id: result.id,
@@ -110,7 +114,7 @@ router.get("/profile", protect, async (req, res) => {
 // @desc Update user profile
 // @route PUT /api/users/profile
 // @access Private
-router.post("/profile", protect, async (req, res) => {
+router.put("/profile/:id", protect, async (req, res) => {
   let userId = req.params.id;
 
   console.log(req.id);
