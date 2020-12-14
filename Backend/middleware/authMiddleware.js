@@ -13,7 +13,7 @@ const protect = async (req, res, next) => {
 
       //   console.log(req.user);
       req.id = decoded.id;
-      console.log(req.id);
+      // console.log(req.id);
 
       next();
     } catch (error) {

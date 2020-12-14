@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2020 at 10:28 AM
+-- Generation Time: Dec 14, 2020 at 06:40 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -56,6 +56,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`) VALUES
+(164, '28e785cb-0b6a-41ad-a64d-c11d73b5aa55'),
 (1, '2dda40a8-70ed-427e-bf68-9d44b8b41ad7');
 
 -- --------------------------------------------------------
@@ -290,7 +291,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `fname`, `lname`, `r
 ('28e785cb-0b6a-41ad-a64d-c11d73b5aa54', 'john', '$2a$09$dnAF5THAWL4MPo93AUgXI.Mm4F/Rd1J7cHZ6LjR0G8NxeE0lXOJRe', 'john@gmail.com', 'Indranil', 'Mukherjee', 777, 1, ''),
 ('28e785cb-0b6a-41ad-a64d-c11d73b5aa55', 'nab', '$2a$09$APJf/kRjTxHajEW7UpACBuKzSUXRACnRVW0oKGPu4tPzTUg5idRpq', 'nab@gmail.com', 'Nabeel', 'Ahmed', 555, 0, NULL),
 ('2dda40a8-70ed-427e-bf68-9d44b8b41ad7', 'sam', '$2a$09$FmP9sR66gdCXb6L5X3NbPerRI6ltlPfkV99WP872MeD2BHFhgLRre', 'sam@gmail.com', 'Samima', 'Khan', 555, 0, NULL),
-('c2a6388a-d8be-43f7-b2a2-c25dde0eb9dc', 'sid', '$2a$09$Kh2nMvyj/UrIPw8rTEf/Ku4gr2Q8yE85ygDu7HW1AwdFd12/bRSqi', 'sid@gmail.com', 'Sidra', 'Aziz', 555, 0, NULL);
+('c2a6388a-d8be-43f7-b2a2-c25dde0eb9dc', 'sid', '$2a$09$Kh2nMvyj/UrIPw8rTEf/Ku4gr2Q8yE85ygDu7HW1AwdFd12/bRSqi', 'sid@gmail.com', 'Sidra', 'Aziz', 555, 0, NULL),
+('e75b219e-20aa-40f4-a3f2-683e0793ea6f', 'zoha', '$2a$09$RO3WLRGrXSfHYC655nBT9.2FU0pFzJ3y.Qf0ZnB5FeXB3iFefeF5e', 'zoha@gmail.com', 'Zoha', 'Imran', 555, 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -375,7 +377,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 --
 -- AUTO_INCREMENT for table `orders_details`

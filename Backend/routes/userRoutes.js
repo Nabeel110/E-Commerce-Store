@@ -89,9 +89,10 @@ router.post("/", async (req, res) => {
 });
 
 // @desc Get user profile
-// @route POST /api/users/profile
+// @route GET /api/users/profile
 // @access Private
-router.get("/profile/:id", protect, async (req, res) => {
+router.get("/profile", protect, async (req, res) => {
+  console.log("User", req.id);
   user.find(req.id, (result) => {
     // console.log(req.id);
     if (result) {
@@ -114,9 +115,9 @@ router.get("/profile/:id", protect, async (req, res) => {
 // @desc Update user profile
 // @route PUT /api/users/profile
 // @access Private
-router.put("/profile/update/:id", protect, async (req, res) => {
-  let userId = req.params.id;
-  // console.log(userId);
+router.put("/profile", protect, async (req, res) => {
+  let userId = req.id;
+  console.log(userId);
 
   // console.log(req.id);
 

@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Importing Routes
 const productsRoute = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 app.use(
   cors({
@@ -28,6 +29,7 @@ app.use(
 // Use Routes
 app.use("/api/products", productsRoute);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use(express.urlencoded({ extended: false }));
 
