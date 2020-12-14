@@ -98,6 +98,7 @@ router.get("/profile", protect, async (req, res) => {
     if (result) {
       res.json({
         id: result.id,
+        username: result.username,
         fname: result.fname,
         lname: result.lname,
         email: result.email,
@@ -117,7 +118,7 @@ router.get("/profile", protect, async (req, res) => {
 // @access Private
 router.put("/profile", protect, async (req, res) => {
   let userId = req.id;
-  console.log(userId);
+  // console.log(userId);
 
   // console.log(req.id);
 
@@ -125,27 +126,18 @@ router.put("/profile", protect, async (req, res) => {
     userId,
     req.body.username,
     req.body.fname,
-
     req.body.lname,
-
     req.body.email,
-
     req.body.password,
   ];
 
-  let userUpdatedfield = {
-    id: userId,
-    username: req.body.username,
-    fname: req.body.fname,
-    lname: req.body.lname,
-    email: req.body.email,
-    password: req.body.password,
-  };
-
   user.update(userArray, (user) => {
+    // console.log(user.id);
     if (user) {
+      // console.log(user);
       res.json({
         id: user.id,
+        username: user.username,
         fname: user.fname,
         lname: user.lname,
         email: user.email,
