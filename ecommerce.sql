@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2020 at 06:40 AM
+-- Generation Time: Dec 14, 2020 at 05:20 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -56,8 +56,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`) VALUES
-(164, '28e785cb-0b6a-41ad-a64d-c11d73b5aa55'),
-(1, '2dda40a8-70ed-427e-bf68-9d44b8b41ad7');
+(1, '28e785cb-0b6a-41ad-a64d-c11d73b5aa55');
 
 -- --------------------------------------------------------
 
@@ -71,6 +70,14 @@ CREATE TABLE `orders_details` (
   `product_id` int(10) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders_details`
+--
+
+INSERT INTO `orders_details` (`id`, `order_id`, `product_id`, `quantity`) VALUES
+(1, 1, 3, 1),
+(2, 1, 5, 1);
 
 --
 -- Triggers `orders_details`
@@ -89,6 +96,7 @@ DELIMITER ;
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `paymentMethod` tinyint(1) NOT NULL,
+  `itemsPrice` float NOT NULL,
   `taxPrice` float NOT NULL,
   `shippingPrice` float NOT NULL,
   `totalPrice` float NOT NULL,
@@ -99,8 +107,8 @@ CREATE TABLE `payment` (
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `paymentMethod`, `taxPrice`, `shippingPrice`, `totalPrice`, `order_id`) VALUES
-(1, 1, 100, 50, 150, 1);
+INSERT INTO `payment` (`id`, `paymentMethod`, `itemsPrice`, `taxPrice`, `shippingPrice`, `totalPrice`, `order_id`) VALUES
+(1, 0, 389, 10, 0, 349, 1);
 
 --
 -- Triggers `payment`
@@ -132,7 +140,7 @@ CREATE TABLE `payment_result` (
 --
 
 INSERT INTO `payment_result` (`id`, `isPaid`, `update_time`, `paidAt`, `isDelivered`, `deliveredAt`, `payment_id`) VALUES
-(1, 0, '2020-12-12', NULL, 0, NULL, 1);
+(6, 0, '2020-12-14', NULL, 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -161,9 +169,9 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `title`, `image`, `images`, `description`, `price`, `quantity`, `short_desc`, `cat_id`, `numReviews`, `rating`) VALUES
 (1, 'PlayStation 4', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSr-iFW5W8n3_jxNKiclAP_k71Fi9PGcojsMUC-vb8zbwJthbBd', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSr-iFW5W8n3_jxNKiclAP_k71Fi9PGcojsMUC-vb8zbwJthbBd;https://static.toiimg.com/thumb/msid-56933980,width-640,resizemode-4,imgsize-85436/56933980.jpg;https://cdn.mos.cms.futurecdn.net/3328be45e8c7fe5194055b4c687fb769-1200-80.jpeg;https://img.etimg.com/thumb/width-640,height-480,imgsize-76492,resizemode-1,msid-52464286/46.jpg', 'With PS4, gaming becomes a lot more power packed. Ultra-fast processors, high-performance system, real-time game sharing, remote play and lots more makes it the ultimate companion device.', 240.99, 49, 'Gaming console', 2, 0, 0),
 (2, 'PEGASUS 33 Running Shoes For Men', 'https://i.pinimg.com/originals/43/40/8e/43408ee5a8d234752ecf80bbc3832e65.jpg', 'https://i.pinimg.com/originals/43/40/8e/43408ee5a8d234752ecf80bbc3832e65.jpg;https://i.ebayimg.com/images/g/eQgAAOSw2XdePfc0/s-l640.jpg;https://i.ebayimg.com/images/g/j~gAAOSwQ6FdG9Eh/s-l640.jpg;https://i.ebayimg.com/images/g/OesAAOSwDnpeJhWN/s-l640.jpg', 'The Nike Zoom Pegasus Turbo 2 is updated with a feather-light upper, while innovative foam brings revolutionary responsiveness to your long-distance training', 59.99, 47, 'SPORTS SHOES', 1, 0, 0),
-(3, 'MEN\'S ADIDAS RUNNING KALUS SHOES', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrEqFHfSbs6rUzcYnN_PcnS_D2JLXusKMVFk4Y8N_tn3hJgNIf', NULL, 'A well cushioned shoe with a fresher look that will appeal to young runners. Features Mesh upper for maximum ventilation, lightstrike IMEVA midsole with visible adiprene providing protection from harmful impact forces and durable Rubber outsole for long-lasting wear', 39.99, 69, 'SPORTS SHOES', 1, 1, 4.5),
+(3, 'MEN\'S ADIDAS RUNNING KALUS SHOES', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrEqFHfSbs6rUzcYnN_PcnS_D2JLXusKMVFk4Y8N_tn3hJgNIf', NULL, 'A well cushioned shoe with a fresher look that will appeal to young runners. Features Mesh upper for maximum ventilation, lightstrike IMEVA midsole with visible adiprene providing protection from harmful impact forces and durable Rubber outsole for long-lasting wear', 39.99, 68, 'SPORTS SHOES', 1, 1, 4.5),
 (4, 'Xbox One X Star Wars Jedi', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8ufSADR9EyusxEfgMLErqISEcKVzQyjoD81zWcdpBvuEGBnYP', NULL, 'Own the Xbox One X Star Wars Jedi: Fallen Order™ Bundle and step into the role of a Jedi Padawan who narrowly escaped the purge of Order 66. This bundle includes a full-game download of Star Wars Jedi: Fallen Order™ Deluxe Edition, a 1-month trial of Xbox Game Pass for console and Xbox Live Gold, and 1-month of EA Access.***', 250, 78, 'Gaming console', 2, 0, 0),
-(5, 'PlayStation 4', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSr-iFW5W8n3_jxNKiclAP_k71Fi9PGcojsMUC-vb8zbwJthbBd', NULL, 'With PS4, gaming becomes a lot more power packed. Ultra-fast processors, high-performance system, real-time game sharing, remote play and lots more makes it the ultimate companion device.', 240.99, 83, 'Gaming console', 2, 0, 0),
+(5, 'PlayStation 4', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSr-iFW5W8n3_jxNKiclAP_k71Fi9PGcojsMUC-vb8zbwJthbBd', NULL, 'With PS4, gaming becomes a lot more power packed. Ultra-fast processors, high-performance system, real-time game sharing, remote play and lots more makes it the ultimate companion device.', 240.99, 82, 'Gaming console', 2, 0, 0),
 (6, 'PEGASUS 33 Running Shoes For Men', 'https://i.pinimg.com/originals/43/40/8e/43408ee5a8d234752ecf80bbc3832e65.jpg', NULL, 'The Nike Zoom Pegasus Turbo 2 is updated with a feather-light upper, while innovative foam brings revolutionary responsiveness to your long-distance training', 59.99, 1, 'SPORTS SHOES', 1, 0, 0),
 (7, 'MEN\'S ADIDAS RUNNING KALUS SHOES', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrEqFHfSbs6rUzcYnN_PcnS_D2JLXusKMVFk4Y8N_tn3hJgNIf', NULL, 'A well cushioned shoe with a fresher look that will appeal to young runners. Features Mesh upper for maximum ventilation, lightstrike IMEVA midsole with visible adiprene providing protection from harmful impact forces and durable Rubber outsole for long-lasting wear', 39.99, 95, 'SPORTS SHOES', 1, 2, 5),
 (8, 'Xbox One X Star Wars Jedi', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ8ufSADR9EyusxEfgMLErqISEcKVzQyjoD81zWcdpBvuEGBnYP', NULL, 'Own the Xbox One X Star Wars Jedi: Fallen Order™ Bundle and step into the role of a Jedi Padawan who narrowly escaped the purge of Order 66. This bundle includes a full-game download of Star Wars Jedi: Fallen Order™ Deluxe Edition, a 1-month trial of Xbox Game Pass for console and Xbox Live Gold, and 1-month of EA Access.***', 250, 100, 'Gaming console', 2, 0, 0),
@@ -265,6 +273,13 @@ CREATE TABLE `shipping` (
   `order_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `shipping`
+--
+
+INSERT INTO `shipping` (`id`, `address`, `city`, `postalCode`, `country`, `order_id`) VALUES
+(1, 'xyz', 'KHI', '124252', 'Pakistan', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -289,7 +304,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `fname`, `lname`, `role`, `isAdmin`, `photoUrl`) VALUES
 ('28e785cb-0b6a-41ad-a64d-c11d73b5aa54', 'john', '$2a$09$dnAF5THAWL4MPo93AUgXI.Mm4F/Rd1J7cHZ6LjR0G8NxeE0lXOJRe', 'john@gmail.com', 'Indranil', 'Mukherjee', 777, 1, ''),
-('28e785cb-0b6a-41ad-a64d-c11d73b5aa55', 'nab', '$2a$09$APJf/kRjTxHajEW7UpACBuKzSUXRACnRVW0oKGPu4tPzTUg5idRpq', 'nab@gmail.com', 'Nabeel', 'Ahmed', 555, 0, NULL),
+('28e785cb-0b6a-41ad-a64d-c11d73b5aa55', 'nebby', '$2a$09$O6BDUYrbEvxqVJiJH3jk4.1TPn2A.xPxZyPXWJ7lI23/w5xMeZYKq', 'nab@gmail.com', 'Nabeel', 'Ahmed', 555, 0, NULL),
 ('2dda40a8-70ed-427e-bf68-9d44b8b41ad7', 'sam', '$2a$09$FmP9sR66gdCXb6L5X3NbPerRI6ltlPfkV99WP872MeD2BHFhgLRre', 'sam@gmail.com', 'Samima', 'Khan', 555, 0, NULL),
 ('c2a6388a-d8be-43f7-b2a2-c25dde0eb9dc', 'sid', '$2a$09$Kh2nMvyj/UrIPw8rTEf/Ku4gr2Q8yE85ygDu7HW1AwdFd12/bRSqi', 'sid@gmail.com', 'Sidra', 'Aziz', 555, 0, NULL),
 ('e75b219e-20aa-40f4-a3f2-683e0793ea6f', 'zoha', '$2a$09$RO3WLRGrXSfHYC655nBT9.2FU0pFzJ3y.Qf0ZnB5FeXB3iFefeF5e', 'zoha@gmail.com', 'Zoha', 'Imran', 555, 0, NULL);
@@ -377,19 +392,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders_details`
 --
 ALTER TABLE `orders_details`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payment_result`
 --
 ALTER TABLE `payment_result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -407,7 +428,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `shipping`
 --
 ALTER TABLE `shipping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
