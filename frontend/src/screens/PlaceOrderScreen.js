@@ -27,13 +27,13 @@ const PlaceOrderScreen = ({ history }) => {
   ).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
+  const { order, success, error, loading } = orderCreate;
 
   useEffect(() => {
-    if (success) {
+    if (!loading && success) {
       history.push(`/order/${order.order_id}`);
     }
-  }, [history, success, order]);
+  }, [history, success, order, loading]);
 
   const placeOrderHandler = (e) => {
     e.preventDefault();

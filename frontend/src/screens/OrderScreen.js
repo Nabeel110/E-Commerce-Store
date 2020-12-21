@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import URL from "../utils/server";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-import { Button, Row, Col, Card, ListGroup, Image } from "react-bootstrap";
+import { Row, Col, Card, ListGroup, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
@@ -36,7 +36,7 @@ const OrderScreen = ({ match }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || (!loadingPay && successPay)) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.paymentDetails.isPaid) {
@@ -46,7 +46,7 @@ const OrderScreen = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, loadingPay]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
@@ -86,7 +86,7 @@ const OrderScreen = ({ match }) => {
                   </p>
                   {order.paymentDetails.isDelivered ? (
                     <Message variant="success">
-                      Delivered on {Date.now()}
+                      Delivered on {new Date().toDateString()}
                     </Message>
                   ) : (
                     <Message variant="danger">Not Delivered</Message>

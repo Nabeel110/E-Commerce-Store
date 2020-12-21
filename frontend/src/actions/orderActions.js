@@ -12,7 +12,7 @@ import {
   ORDER_PAY_FAIL,
 } from "../constants/orderConstants";
 
-// Update User Profile
+// Create Order
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({

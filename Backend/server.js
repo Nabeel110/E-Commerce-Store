@@ -1,12 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const morgan = require("morgan");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
 // Initializing app
 const app = express();
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 //Added bodyParser (Error Solution)
 app.use(bodyParser.json()); // for parsing application/json
